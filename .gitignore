@@ -1,0 +1,8 @@
+.svn
+build
+bin
+deploy
+logs
+dist
+output
+.DS_Store

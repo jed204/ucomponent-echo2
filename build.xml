@@ -1,0 +1,121 @@
+<!--
+
+	UntzUntzComponents Base Project Ant Build File
+	Written by Jed Danner <jdanner@untzuntz.com>
+
+	Builds the ustack.jar file for use in the other UntzUntzComponents-based applications.
+
+-->
+
+<project name="UntzUntzComponentsBase" default="UntzUntzComponents-jar" basedir=".">
+    <description>
+            Main UntzUntzComponents Application. Use the produced .jar in UntzUntzComponents-based Applications.
+    </description>
+
+	<!-- ================== -->
+	<!-- === PROPERTIES === -->
+	<!-- ================== -->
+	<property name="src" location="${basedir}/src"/>
+	<property name="build" location="${basedir}/build"/>
+	<property name="app.output" value="${basedir}/output"/>
+	<property name="JAVA_HOME" value="${env.JAVA_HOME}"/>
+
+	<!-- ================= -->
+	<!-- === CLASSPATH === -->
+	<!-- ================= -->
+	<path id="common.class.path">
+		<pathelement location="${basedir}/lib/javax.servlet.jar"/>
+		<pathelement location="${basedir}/lib/Echo2_App.jar" />
+		<pathelement location="${basedir}/lib/Echo2_WebContainer.jar" />
+		<pathelement location="${basedir}/lib/Echo2_WebRender.jar" />
+	</path>
+	
+
+    <patternset id="fileset.resources">
+        <include name="**/*properties"/>
+        <include name="**/*html"/>
+        <include name="**/*txt"/>
+        <include name="**/*js"/>
+        <include name="**/*xml"/>
+        <include name="**/*gif"/>
+        <include name="**/*jpg"/>
+        <include name="**/*png"/>
+        <include name="**/*stylesheet"/>
+        <include name="**/*providers"/>
+    </patternset>
+
+	
+	<!-- create a reference for the class path utilized -->
+	<property name="common.class.path" refid="common.class.path" />
+	
+	<!-- ===================== -->
+	<!-- === INITIAL SETUP === -->
+	<!-- ===================== -->
+	<target name="init">
+
+		<!-- Create the time stamp -->
+		<tstamp/>
+	    	
+		<!-- Create the build directory structure used by compile -->
+		<property name="app.name" value="UntzUntzComponentsE2" />
+		<property name="class.files" value="**/*.class" />
+		
+		<mkdir dir="${build}"/>
+		<mkdir dir="${app.output}"/>
+		<mkdir dir="${build}/${app.name}-jar"/>
+
+	</target>
+	
+	<!-- ========================== -->
+	<!-- === COMPILE JAVA FILES === -->
+	<!-- ========================== -->
+
+	<!-- Compile the java files for the main application -->
+	<target name="UntzUntzComponents-Compile" depends="init">
+	  	<javac srcdir="${src}" target="1.5" destdir="${build}/${app.name}-jar/" debug="on">
+	    	<classpath>
+	      		<pathelement path="${common.class.path}" />
+		    </classpath>
+	  	</javac>
+        <copy todir="${build}/${app.name}-jar/">
+            <fileset dir="${src}">
+                <patternset refid="fileset.resources"/>
+            </fileset>
+        </copy>
+        <copy todir="${build}/${app.name}-jar/">
+            <fileset dir="resources">
+                <patternset refid="fileset.resources"/>
+            </fileset>
+        </copy>
+	</target>
+	
+	
+	<!-- ======================== -->
+	<!-- === CREATE JAR FILES === -->
+	<!-- ======================== -->
+		
+	<!-- Creates the jar file for the application -->
+	<target name="UntzUntzComponents-jar" depends="UntzUntzComponents-Compile">
+
+		<echo message="Building UntzUntzComponents Jar File"/>
+		
+	  	<jar jarfile="${app.output}/${app.name}.jar">
+	    		<fileset dir="${build}/${app.name}-jar/" includes="**" />
+	  	</jar>
+
+	</target>
+
+	
+	<!-- =========================== -->
+	<!-- === CLEANUP DIRECTORIES === -->
+	<!-- =========================== -->
+
+	<target name="clean" description="clean up" >
+	    <!-- Delete the ${build} and ${app.output} directory trees -->
+		<delete dir="${app.output}"/>
+	    <delete dir="${build}"/>
+	</target>
+	
+		
+</project>
+
