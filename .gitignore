@@ -5,4 +5,8 @@ deploy
 logs
 dist
 output
+target
 .DS_Store
+.project
+.settings
+.classpath
