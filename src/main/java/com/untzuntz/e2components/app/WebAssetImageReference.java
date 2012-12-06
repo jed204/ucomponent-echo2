@@ -36,13 +36,20 @@ public class WebAssetImageReference extends HttpImageReference {
 	 */
 	public WebAssetImageReference(String uri, Extent width, Extent height) {
 		super(uri);
-		
-		StringBuffer fullNewLocation = new StringBuffer();
-		fullNewLocation.append( System.getProperty("WebAsset.Base") );
-		fullNewLocation.append( System.getProperty("WebAsset.Environment") );
-		fullNewLocation.append("/web-assets");
-		fullNewLocation.append(uri);
 
+		StringBuffer fullNewLocation = new StringBuffer();
+		if (!uri.startsWith("/EvenFlow/"))
+		{
+			fullNewLocation.append( System.getProperty("WebAsset.Base") );
+			fullNewLocation.append( System.getProperty("WebAsset.Environment") );
+			fullNewLocation.append("/web-assets");
+			fullNewLocation.append(uri);
+			
+			System.out.println("Resolved Location of Image => " + fullNewLocation.toString());
+		}
+		else
+			fullNewLocation.append(uri);
+			
 		this.uri = fullNewLocation.toString();
 		this.width = width;
 		this.height = height;
