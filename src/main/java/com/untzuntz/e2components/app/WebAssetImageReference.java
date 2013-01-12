@@ -36,6 +36,13 @@ public class WebAssetImageReference extends HttpImageReference {
 	 */
 	public WebAssetImageReference(String uri, Extent width, Extent height) {
 		super(uri);
+		
+		this.uri = uri;
+		this.width = width;
+		this.height = height;
+
+		if (uri == null)
+			return;
 
 		StringBuffer fullNewLocation = new StringBuffer();
 		if (!uri.startsWith("/EvenFlow/"))
@@ -51,8 +58,6 @@ public class WebAssetImageReference extends HttpImageReference {
 			fullNewLocation.append(uri);
 			
 		this.uri = fullNewLocation.toString();
-		this.width = width;
-		this.height = height;
 		id = ApplicationInstance.generateSystemId();
 	}
 
@@ -99,7 +104,7 @@ public class WebAssetImageReference extends HttpImageReference {
 	 * @return the URI of the image
 	 */
 	public String getUri() {
-		return uri;
+		return uri; 
 	}
 
 	/**

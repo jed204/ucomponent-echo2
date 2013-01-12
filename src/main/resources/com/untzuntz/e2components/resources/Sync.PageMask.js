@@ -12,6 +12,7 @@ UntzUntzPageMask.getComponent = function(element) {
 UntzUntzPageMask.MessageProcessor = function() { };
 
 UntzUntzPageMask.MessageProcessor.process = function(messagePartElement) {
+try {
     for (var i = 0; i < messagePartElement.childNodes.length; ++i) {
         if (messagePartElement.childNodes[i].nodeType == 1) {
             switch (messagePartElement.childNodes[i].tagName) {
@@ -27,9 +28,11 @@ UntzUntzPageMask.MessageProcessor.process = function(messagePartElement) {
             }
         }
     }
+} catch (e) {}
 };
 
 UntzUntzPageMask.MessageProcessor.processDispose = function(messageElement) {
+try{
     for (var itemXML = messageElement.firstChild; itemXML; itemXML = itemXML.nextSibling) {
         var elementId = itemXML.getAttribute("eid");
 
@@ -51,9 +54,12 @@ UntzUntzPageMask.MessageProcessor.processDispose = function(messageElement) {
 	        }
 		}        
     }
+} catch (e) {}
 };
 
 UntzUntzPageMask.prototype.destroy = function() {
+try {
+
 	var divE = document.getElementById(this.elementId);
 	if (divE && divE.parentElement) {
 		divE.parentElement.removeChild(divE);
@@ -61,26 +67,33 @@ UntzUntzPageMask.prototype.destroy = function() {
 	if (divE && divE.parentNode) {
 		divE.parentNode.removeChild(divE);
 	}
+
+} catch (e) {}
 };
 
 /*
  * -----------------------------------  
  */
 UntzUntzPageMask.MessageProcessor.processHidden = function(messageElement) {
+	try {
     for (var itemXML = messageElement.firstChild; itemXML; itemXML = itemXML.nextSibling) {
         var elementId = itemXML.getAttribute("eid");
 
 
+    }
+    } catch (e) {
     }
 };
 
 
 UntzUntzPageMask.MessageProcessor.processInit = function(messageElement) {
+try {
     for (var itemXML = messageElement.firstChild; itemXML; itemXML = itemXML.nextSibling) {
         var elementId = itemXML.getAttribute("eid");
 		var clientObj = new UntzUntzPageMask(elementId);
 		clientObj.init(itemXML);
     }
+} catch (e) {}
 };
 
 
